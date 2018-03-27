@@ -126,7 +126,7 @@
 					</FRAMEANIMATION>
 				</IMAGE>
 			</WINDOW>
-			<WINDOW id="layoutFirst" layout="0,120,720,910" defaultImg="#0000000" align="relative" visible="invisible">
+			<WINDOW id="layoutFirst" layout="0,120,720,510" defaultImg="#0000000" align="relative" visible="invisible">
 				<LABEL layout="0,120,720,2" defaultImg="#ffffff" />
 				<LABEL layout="0,790,720,2" defaultImg="#ffffff" />
 			</WINDOW>
