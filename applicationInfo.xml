@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	Created by LOGEO Component Team on 2012/04.
-	You can freely copy, distribute, modify for commercial or non-commercial purposes.
+	Created by MoSPI.org on 06.08.2012
+
+	Permission is granted to copy, distribute, modify under the terms of Citrine License.
+
+	Copyright (C) MoSPI.org. All rights reserved.
 -->
 <MOML>
 	<APPLICATIONINFO>
-		<UPDATEINFO realTimeType="qMark" />
-		<START url="cameraView.xml" />
-		<ORIENTATION type="portrait" effect="none" />
+		<START url="ui/start.xml" />
 	</APPLICATIONINFO>
 </MOML>
- 
- 
