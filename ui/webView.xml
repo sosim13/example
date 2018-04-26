@@ -3,7 +3,7 @@
 	<UI>
 		<UILAYOUT portrait="720,1230" landscape="720,1230">
 		<WINDOW id="mainWindow" layout="0,0,720,1150" align="relative">
-			<AGATEWEBVIEW id="webView" layout="0,0,720,1150" supportZoom="true" controls="none" defaultImg="#ffffff">
+			<AGATEWEBVIEW id="webView" src="https://google.com" layout="0,0,720,1150" supportZoom="true" controls="none" defaultImg="#ffffff">
 				<LINKMAP>
 					<LINK url="http://*" delay="1"/>	//페이지 이동시 깜빡이는 현상 방지 코드
 					<LINK url="http://*" onFinish=""/>	//페이지 로딩이 완료될 시 호출 되는 코드
@@ -18,14 +18,12 @@
 		<WINDOW id="webBottomWindow" layout="0,1150,720,80" >
 			<STYLEBUTTON layout="0,0,720,80" overlay1="gradation:tb|#f4f4f4|#e3e3e3" enabled="false"/>
 			<WINDOW layout="0,0,720,80" align="linear:horizontal|hJustify|center" >
-		<!-- <STYLEBUTTON id="webBottomWindow" layout="0,1150,720,80" align="linear:horizontal|hJustify|center" overlay1="gradation:tb|#f4f4f4|#e3e3e3" enabled="false"> -->
 				<BUTTON id="backBtn" layout="70,70" defaultImg="res/img/tab_prev.png" onClick="function.goBack" margin="30,0,0,0" />
 				<BUTTON id="fowardBtn" layout="70,70" defaultImg="res/img/tab_next.png" onClick="function.goForward" />
-				<BUTTON layout="70,70" defaultImg="res/img/tab_home.png" onClick="device.toastPopup('첫 페이지로이동'), webView.src='http://mulawear.com/m'" />
+				<BUTTON layout="70,70" defaultImg="res/img/tab_home.png" onClick="device.toastPopup('첫 페이지로이동'), webView.src='http://m.naver.com'" />
 				<BUTTON layout="70,70" defaultImg="res/img/tab_reload.png" onClick="device.toastPopup('새로고침'), webView.refresh()" />
 				<LABEL layout="1,70" defaultImg="#d3d4d5"/>
 				<BUTTON layout="70,70" defaultImg="res/img/browser_bottom_ico_full.png" margin="0,0,15,0" onClick="device.toastPopup('메뉴 숨기기'), function.webBottomVisible"/>
-		<!-- </STYLEBUTTON> -->
 			</WINDOW>
 		</WINDOW>
 		</UILAYOUT>
