@@ -1,83 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MOML>
-	<THEMES id="theme1">
-		<THEME id="title" fontSize="50" textColor="#000000" fontShadow="#80808080"/>
-		<THEME id="loading" fontSize="12" textColor="#000000" fontShadow="#80808080"/>
-	</THEMES>
-	
 	<UI>
-		<UILAYOUT portrait="320,460" landscape="320,460" theme="theme1">
-			<WINDOW id="bg" layout="0,0,320,460">
-				<WINDOW id="slideBg" layout="0,0,640,460" defaultImg="bg1.jpg" />
-				<WINDOW id="fadeBg" layout="0,0,640,460" visible='invisible'/>
-				<WINDOW layout="0,0,320,460" defaultImg="#b0ffffff" />
-			</WINDOW>
-			
-			<AGATEWEBVIEW id="webView" layout="0,30,320,390" src="http://mulawear.com/m" _src="main.htm" supportZoom="false" controls="none" defaultImg="#01ffffff">
+		<UILAYOUT portrait="720,1230" landscape="720,1230">
+		<WINDOW id="mainWindow" layout="0,0,720,1150" align="relative">
+			<WINDOW id="addrWindow" layout="0,150,720,130" align="relative">
+			   <WINDOW layout="0,0,720,120" align="relative" >
+			      <EDIT layout="0,50,550,50"  placeholder="Addr" returnKeyType="next" 
+			       	 fontSize="40" fontColor="#555555" fontStyle="bold" textAlign="vCenter" defaultImg="res/img/searchBar.png"/>
+			     </WINDOW>
+		     </WINDOW>
+			<AGATEWEBVIEW id="webView" layout="0,50,720,1150" supportZoom="true" controls="none" defaultImg="#ffffff">
 				<LINKMAP>
-					<!-- main page url을 모두 써준다.-->
-					<LINK url="http://mulawear.com/m/" jsPlugin="js/main.js" delay="500"/>
-					<LINK url="http://mulawear.com/m/main.html" jsPlugin="js/main.js" delay="500"/>
-					<LINK url="http://mulawear.com/m/index.html" jsPlugin="js/main.js" delay="500"/>
+					<LINK url="http://*" delay="1"/>	//페이지 이동시 깜빡이는 현상 방지 코드
+					<LINK url="http://*" onFinish=""/>	//페이지 로딩이 완료될 시 호출 되는 코드
 					
 					<!-- 공통 -->
-					<LINK url="http://mulawear.com/m/*" jsPlugin="js/common.js" delay="500"/>
-					
-					<!-- gallery -->
-					<LINK url="http://mulawear.com/m/" onFinish="function.makeGalleryData" delay="1000"/>
-					
-					<!-- 블로그 검색 -->
-					<LINK url="http://m.search.naver.com/*" jsPlugin="js/blogSearchPage.js" delay="500"/>
-					<LINK url="http://m.blog.naver.com/*" jsPlugin="js/blogPage.js"  delay="500"/>
+					<LINK url="http://nikemania.com/*" jsPlugin="js/common.js" delay="500"/>
 				</LINKMAP>
 			</AGATEWEBVIEW>
-			
-			<WINDOW id="flyingObj1" defaultImg="flareBlue.png" layout="-80,200,20,20" />
-			<WINDOW id="flyingObj2" defaultImg="flareRed.png" layout="-80,300,10,10"/>
-			<WINDOW id="flyingObj3" defaultImg="flareGreen.png" layout="-80,400,15,15"/>
+		</WINDOW>
+		<!--하단 -->
+		<BUTTON id="bottomBtn" layout="620,1136,90,84" defaultImg="res/img/browser_ico_full.png" onClick="device.toastPopup('메뉴 보이기'), function.webBottomVisible" visible="invisible"/>
+		<WINDOW id="webBottomWindow" layout="0,1150,720,80" >
+			<STYLEBUTTON layout="0,0,720,80" overlay1="gradation:tb|#f4f4f4|#e3e3e3" enabled="false"/>
+			<WINDOW layout="0,0,720,80" align="linear:horizontal|hJustify|center" >
+		<!-- <STYLEBUTTON id="webBottomWindow" layout="0,1150,720,80" align="linear:horizontal|hJustify|center" overlay1="gradation:tb|#f4f4f4|#e3e3e3" enabled="false"> -->
+				<BUTTON id="backBtn" layout="70,70" defaultImg="res/img/tab_prev.png" onClick="function.goBack" margin="30,0,0,0" />
+				<BUTTON id="fowardBtn" layout="70,70" defaultImg="res/img/tab_next.png" onClick="function.goForward" />
+				<BUTTON layout="70,70" defaultImg="res/img/tab_home.png" onClick="device.toastPopup('첫 페이지로이동'), webView.src='http://mulawear.com/m'" />
+				<BUTTON layout="70,70" defaultImg="res/img/tab_reload.png" onClick="device.toastPopup('새로고침'), webView.refresh()" />
+				<LABEL layout="1,70" defaultImg="#d3d4d5"/>
+				<BUTTON layout="70,70" defaultImg="res/img/browser_bottom_ico_full.png" margin="0,0,15,0" onClick="device.toastPopup('메뉴 숨기기'), function.webBottomVisible"/>
+		<!-- </STYLEBUTTON> -->
+			</WINDOW>
+		</WINDOW>
 		</UILAYOUT>
 	</UI>
-	
-	<FUNCTIONCALL cmd="function.aniFlyingObj" delay="5000"/>
-	<FUNCTIONCALL cmd="function.aniSlideBg" delay="3000"/>
-	
 	<FUNCTIONLIST>
-		<!-- 첫 웹페이지에서 갤러리 데이터 만들기-->
-		<FUNCTION id="makeGalleryData(url)" >
-			<FUNCTIONITEM condition="userVariable.galleryData == ''" cmd="caller.runJavaScript(file.read('gallery/makeImageData.js'))" />
+		<!-- 이전, 다음페이지 이동 버튼에 이미지 처리 함수 -->
+		<FUNCTION id="prevForwardCheck">
+			<CMD condition="webView.canBack() == 'true'" cmd="backBtn.defaultImg='res/img/tab_prev.png'" elseCmd="backBtn.defaultImg='res/img/tab_prev_on.png'"/>
+			<CMD condition="webView.canForward() == 'true'" cmd="fowardBtn.defaultImg='res/img/tab_next.png'" elseCmd="fowardBtn.defaultImg='res/img/tab_next_on.png'"/>
 		</FUNCTION>
-		
-		 <!-- flare 애니메이션-->
-		<FUNCTION id="aniFlyingObj">
-			<FUNCTIONITEM cmd="animation.flyIn('flyingObj1', 400,-200, 20, 20, 'easeIn3', 3000, '')" delay="0"/>
-			<FUNCTIONITEM cmd="animation.flyIn('flyingObj2', 400,-200, 40, 40, 'easeIn3', 2000, '')" delay="400"/>
-			<FUNCTIONITEM cmd="animation.flyIn('flyingObj3', 400,-200, 20, 20, 'easeIn3', 1500, '')" delay="0"/>
-			<_FUNCTIONITEM cmd="animation.rotate('flyingObj1',720, 50, 50, 'easeIn3', 3000, '')" delay="0"/>
-			<_FUNCTIONITEM cmd="animation.rotate('flyingObj2',360, 15, 15, '', 2000, '')" delay="400"/>
-			<_FUNCTIONITEM cmd="animation.rotate('flyingObj3',540, 20, 20, '', 1500, '')" delay="0"/>
-			<FUNCTIONITEM cmd="function.aniFlyingObj" delay="15000"/>
+		<FUNCTION id="goBack">
+			<CMD condition="webView.canBack() == 'true'" cmd="webView.back()" elseCmd="device.toastPopup('첫 화면입니다.')" />
 		</FUNCTION>
-		
-		<!-- 배경  애니메이션 -->		
-		<FUNCTION id="aniSlideBg" >
-			<FUNCTIONITEM cmd="animation.flyOut('slideBg', -320,0, 640, 460, 'roundTrip|easeInOut3', 50000, 'slideBg.visible=\'visible\', function.switchBg')" delay="0"/>
+		<FUNCTION id="goForward">
+			<CMD condition="webView.canForward() == 'true'" cmd="webView.forward()" elseCmd="device.toastPopup('다음화면이 없습니다.')" />
 		</FUNCTION>
-		<FUNCTION id="switchBg" >
-			<FUNCTIONITEM cmd="userVariable.switchBgIndex= (userVariable.switchBgIndex + 1) % 3" />
-			<FUNCTIONITEM cmd="fadeBg.defaultImg='bg' + (userVariable.switchBgIndex + 1) + '.jpg'" />
-			<FUNCTIONITEM cmd="animation.show('fadeBg', 'fade', 'easeOut3', 3000, '')"/>
-			<FUNCTIONITEM cmd="slideBg.defaultImg=fadeBg.defaultImg" delay="3100"/>
-			<FUNCTIONITEM cmd="fadeBg.visible='invisible'" delay="3200"/>
-			<FUNCTIONITEM cmd="function.aniSlideBg" delay="3300"/>
+		<FUNCTION id="webBottomVisible">
+			<CMD condition="webBottomWindow.visible == 'visible'" cmd="webBottomWindow.visible='invisible', bottomBtn.visible='visible', mainWindow.height=mainWindow.height+80, webView.height=webView.height+80" elseCmd="webBottomWindow.visible='visible', bottomBtn.visible='invisible', mainWindow.height=mainWindow.height-80, webView.height=webView.height-80" />
 		</FUNCTION>
-		
-		<!-- html 소스 보기 메뉴 -->
-		<FUNCTION id="popupSource(url)" >
-			<FUNCTIONITEM cmd="userVariable.source=url" />
-			<FUNCTIONITEM cmd="userVariable.sourceFilePath = webView.url" />
-			<FUNCTIONITEM cmd="root.open('source.xml', 'popupSource')" />
-		</FUNCTION>
-		
-	</FUNCTIONLIST>
-
+		<!-- 이전, 다음페이지 이동 버튼에 이미지 처리 함수 -->
+		<CMD cmd="function.prevForwardCheck" delay="100" />
+</FUNCTIONLIST>
 </MOML>
